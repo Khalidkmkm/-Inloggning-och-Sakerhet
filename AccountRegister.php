@@ -8,6 +8,9 @@ if (!isset($TPL)) {
     include "layout.php";
     exit;
 }
+
+
+
 ?>
 <p>
 <div class="row">
