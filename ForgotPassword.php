@@ -25,7 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Spara i password_resets
             $stmt = $conn->prepare('INSERT INTO password_resets (user_id, token, expires_at) VALUES (?, ?, ?)');
             $stmt->execute([$user['id'], $token, $expires]);
-            // Visa länk (i verkligheten skickas via e-post)
             $reset_link = "http://localhost:8080/ResetPassword.php?token=$token";
             $success = 'A reset link has been generated (for demo, se nedan).';
         } else {
