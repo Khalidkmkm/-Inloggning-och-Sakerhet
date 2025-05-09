@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once('lib/PageTemplate.php');
 ?>
 
@@ -36,20 +39,21 @@ require_once('lib/PageTemplate.php');
                 </ul>
                 <ul class="header-links pull-right">
                     <ul class="navbar-nav">
+                        <?php if (isset($_SESSION['email'])): ?>
                             <li class="nav-item">
-                                <a  class="nav-link text-dark" href="/Account/Manage" title="Manage">Hello @User.Identity?.Name!</a>
+                                <a class="nav-link text-dark" href="#">Hello, <?php echo htmlspecialchars($_SESSION['email']); ?>!</a>
                             </li>
-                            <li class="nav-item">
-                                <a  class="nav-link text-dark" href="/Account/Logout" title="Manage">Logout</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="/AccountRegister.php">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="/AccountLogin.php">Login</a>
-                            </li>
-                        </ul>
-                        
+                        <?php endif; ?>
+                        <li class="nav-item">
+                            <a  class="nav-link text-dark" href="/AccountLogout.php" title="Logout">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/AccountRegister.php">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/AccountLogin.php">Login</a>
+                        </li>
+                    </ul>
                 </ul>
             </div>
         </div>
