@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once('lib/PageTemplate.php');
 ?>
 
@@ -36,6 +37,8 @@ require_once('lib/PageTemplate.php');
                 </ul>
                 <ul class="header-links pull-right">
                     <ul class="navbar-nav">
+
+                    
                             <li class="nav-item">
                                 <a  class="nav-link text-dark" href="/Account/Manage" title="Manage">Hello @User.Identity?.Name!</a>
                             </li>

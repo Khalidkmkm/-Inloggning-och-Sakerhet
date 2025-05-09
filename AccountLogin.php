@@ -1,4 +1,5 @@
 <?php
+require_once('Models/Database.php');
 require_once('lib/PageTemplate.php');
 # trick to execute 1st time, but not 2nd so you don't have an inf loop
 if (!isset($TPL)) {
@@ -8,6 +9,29 @@ if (!isset($TPL)) {
     include "layout.php";
     exit;
 }
+
+$dbContext = new Database();
+
+$errorMessage = "";
+$username = ""; 
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    try{  
+       
+        $dbContext->getUsersDatabase()->getAuth()->login($username, $password);
+        header('Location: /');
+        exit;
+    }
+    catch(Exception $e){
+        $errorMessage = "Kunde inte logga in";
+    }
+}else{
+    
+}
+
+
 ?>
 <p>
 <div class="row">
@@ -16,14 +40,17 @@ if (!isset($TPL)) {
                 <div class="col-md-12">
                     <div class="newsletter">
                         <p>User<strong>&nbsp;LOGIN</strong></p>
-                        <form>
-                            <input class="input" type="email" placeholder="Enter Your Email">
+                        <?php if($errorMessage): ?>
+      <div class="error"><?= htmlspecialchars($errorMessage) ?></div>
+    <?php endif; ?>
+                        <form method="POST">
+                             <input class="input" placeholder="Enter your Email" type="text" name="username" value="<?= htmlspecialchars($username) ?>">
                             <br/>
                             <br/>
-                            <input class="input" type="password" placeholder="Enter Your Password">
+                            <input class="input" type="password" name="password" placeholder="Enter Your Password">
                             <br/>
                             <br/>
-                            <button class="newsletter-btn"><i class="fa fa-envelope"></i> Login</button>
+                            <input type="submit" value="Login">
                         </form>
                         <a href="">Lost password?</a>
                     </div>
