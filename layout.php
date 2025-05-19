@@ -1,6 +1,12 @@
 <?php
 ob_start();
 require_once('lib/PageTemplate.php');
+require_once('Models/Database.php');
+
+$dbContext = new Database();
+$auth = $dbContext->getUsersDatabase()->getAuth();
+$isLoggedIn = $auth->isLoggedIn();
+$currentUser = $isLoggedIn ? $auth->getUsername() : null;
 ?>
 
 <!DOCTYPE html>
@@ -37,22 +43,22 @@ require_once('lib/PageTemplate.php');
                 </ul>
                 <ul class="header-links pull-right">
                     <ul class="navbar-nav">
-
-                    
+                        <?php if ($isLoggedIn): ?>
                             <li class="nav-item">
-                                <a  class="nav-link text-dark" href="/Account/Manage" title="Manage">Hello @User.Identity?.Name!</a>
+                                <a class="nav-link text-dark" href="/Account/Manage" title="Manage">Hello <?= htmlspecialchars($currentUser) ?>!</a>
                             </li>
                             <li class="nav-item">
-                                <a  class="nav-link text-dark" href="/Account/Logout" title="Manage">Logout</a>
+                                <a class="nav-link text-dark" href="/AccountLogout.php">Logout</a>
                             </li>
+                        <?php else: ?>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/AccountRegister.php">Register</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="/AccountLogin.php">Login</a>
                             </li>
-                        </ul>
-                        
+                        <?php endif; ?>
+                    </ul>
                 </ul>
             </div>
         </div>
